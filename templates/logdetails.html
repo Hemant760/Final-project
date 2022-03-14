@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Details</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+          }
+          * {
+            box-sizing: border-box;
+          }
+          
+          .row {
+            margin-left:-5px;
+            margin-right:-5px;
+          }
+            
+          .column {
+            float: left;
+            width: 50%;
+            padding: 5px;
+          }
+          
+          /* Clearfix (clear floats) */
+          .row::after {
+            content: "";
+            clear: both;
+            display: table;
+          }
+          
+          table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+          }
+    </style>
+</head>
+<body style="background-color:azure">
+    <div class="row">
+        <div class="column">
+            <h1>Trendlines of {{ name['username'] }} for {{ tracker['Name'] }}</h1>  
+            <div id = "footer">
+                <img src="\static\trendline.png">
+            </div>
+        </div>
+        <div class="column">
+            <h1>Log Details of {{ name['username'] }} for {{ tracker['Name'] }}</h1>
+            {% if l|length == 0 %}
+             <h2 style="color:red">No data Found.Please add your logs</h2>
+            {% endif %}
+            <table>
+                <tr>
+                    <th>Username</td>
+                    <th>Tracker_name</td>
+                    <th>Value</td>
+                    <th>Note</td>
+                    <th>TimeStamp</th>
+                    <th>Actions</th>
+                </tr>
+                {% for data in det %}
+                {% if data.username == name.username and data.trackername == tracker.Name %}
+                <tr>
+                    <td>{{ data['username'] }}</td>
+                    <td>{{ data['trackername'] }}</td>
+                    <td>{{ data['value'] }}</td>
+                    <td>{{ data['note'] }}</td>
+                    <td>{{ data['timestamp'] }}</td>
+                    <td>
+                        <a href="/log/{{ name.username }}/{{ tracker.Name }}/update/{{ data.no }}">Update Log</a>
+                        <a href="/log/{{ name.username }}/{{ tracker.Name }}/delete/{{ data.no }}">delete Log</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <p><a href='/dashboard/{{ name.username }}'>Go Back</a><p>
+</body>
+</html>

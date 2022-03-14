@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <style>
+        .trackers{
+                font-family: Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;       
+                border: 1px solid #ddd;
+                padding: 8px;  
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                
+                color: black;     
+        }
+        td, th{
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .trackers,  tr:nth-child(even){
+            background-color: #f2f2f2;
+        }
+        .trackers, tr:hover{
+            background-color: #ddd;
+        }
+        .head{
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 0.75cm;
+        }
+        .foot{
+            float: right;
+        }
+        
+    </style>
+</head>
+<body style="background-color:azure">
+    <div class="head">
+        <h1>Trackers</h1>
+    </div>
+    <h1>welcome {{ name.username }}</h1>
+    <table class = "trackers">
+        <tr style="background-color: #04AA6D;">
+            <th style="text-align:center;">ID</th>
+            <th style="text-align:center;">Trackers</th>
+            <th style="text-align:center;">Description</th>
+            <th style="text-align:center;">Type</th>
+            <th style="text-align:center;">Add Event</th>
+            <th style="text-align:center;">Actions</th>
+        </tr>
+        {% for data in trackers %}
+        {% if data['username'] == 'admin' %}
+        <tr>
+            <td>{{ data['id'] }}</td>
+            <td><a href="/logdetails/{{ name.username }}/{{ data.Name }}">{{ data['Name'] }}</a></td>
+            <td>{{ data['Description'] }}</td>
+            <td>{{ data['Type'] }}</td>
+            <td>
+                <a style="text-align:center;" href="/log/{{ name.username }}/{{ data.Name }}">Add+</a>
+            </td>
+            <td style="color:red">
+                Default Trackers , No actions allowed!!!!
+            </td>
+        </tr>
+        {% endif %}
+        {% if data['username'] == name['username'] %}
+        <tr>
+            <td>{{ data['id'] }}</td>
+            <td><a href="/logdetails/{{ name.username }}/{{ data.Name }}">{{ data['Name'] }}</a></td>
+            <td>{{ data['Description'] }}</td>
+            <td>{{ data['Type'] }}</td>
+            <td>
+                <a style="text-align:center;" href="/log/{{ name.username }}/{{ data.Name }}">Add+</a>
+            </td>
+            <td>
+                <a href="/trackers/{{ name.username }}/delete/{{ data['id'] }}">Delete Tracker</a>
+                <a href="/trackers/{{ name.username }}/update/{{ data['id'] }}">Update Tracker</a>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        </table>
+    <h2 style="text-align:center"><a href="/trackers/add/{{ name['username'] }}">+Add Tracker</a></h2>
+    <div class="foot">
+        <h3><a href = {{url_for('thanks')}} style="float:right;">LOGOUT</a></h3>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+</body>
+</html>
